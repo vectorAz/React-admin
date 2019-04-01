@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Admin from './pages/admin/admin'
 import Login from './pages/login/login';
+import './reset/res.less'
 import {BrowserRouter, Switch, Route,Redirect} from 'react-router-dom'
 export default class app extends Component {
   render() {
@@ -8,8 +9,8 @@ export default class app extends Component {
         <BrowserRouter>
           <Switch>
          <Route path='/admin' component={Admin}/>
-         <Route path='/'  component={Login}/>
-         <Redirect path='/'></Redirect>
+         <Route path='/login'  component={Login}/>
+         <Redirect to='/login' />
         </Switch>
         </BrowserRouter>
       
