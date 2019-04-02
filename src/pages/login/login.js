@@ -1,15 +1,37 @@
 import React, { Component } from 'react'
 import {
-  Form, Icon, Input, Button,
+  Form, Icon, Input, Button,message
 } from 'antd';
 import logo from './logo.png'
 import './style.less'
+import {reqLogin} from '../../api/index'
+
 const Item = Form.Item;
+
 
 @Form.create()
 class Login extends Component {
   login = (e) => {
     e.preventDefault();
+    this.props.form.validateFields(async(err,value)=>{
+      if(!err){
+        const {username,password}=value
+        const resulet=await reqLogin(username,password);
+        console.log(resulet.status);
+        
+        if(resulet.status===0){
+          console.log('1111');
+          
+          message.success('登录成功')
+          this.props.history.replace('/admin')
+        }
+        else {
+          // 登录失败
+          // 提示错误
+          message.error(resulet.msg, 2);
+        }
+      }
+    })
   }
   validator = (rules, value, callback) => {
     // console.log(value,rules);
@@ -27,6 +49,8 @@ class Login extends Component {
       callback()
     }
   }
+
+
 
   render() {
     const { getFieldDecorator } = this.props.form
