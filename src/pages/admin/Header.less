@@ -1,0 +1,36 @@
+.header-main{
+    .header-top{
+        text-align: right;
+        border-bottom: 1px solid  #1da57a;
+        padding: 0 20px;
+     
+    }
+    .header-bottom{
+        display: flex;
+        align-items: center;
+        height: 40px;
+        padding-bottom: 5px;
+        .leftCol{
+            text-align: center;
+            &::after{
+            content: '';
+            position: absolute;
+            bottom: -14px;
+            left: 45%;
+                border-left: 20px solid transparent ;
+                border-right: 20px solid  transparent;
+                border-top: 20px solid #fff ;
+                border-bottom: 10px solid transparent ;
+            }
+        }
+        .rightCol{
+            text-align: right;
+            padding-right: 50px;
+          img{
+              margin: 10px 25px;
+              width: 30px;
+              height: 20px;
+          }
+        }
+    }
+}

@@ -64,7 +64,7 @@ class Left extends Component {
 
         const { location: { pathname }, opacity } = this.props
         // console.log(pathname);
-        console.log(this.state.openKeys);
+        // console.log(this.state.openKeys);
         
         return (
             <Fragment>

@@ -18,8 +18,9 @@ function getstorage(){
 
 }
 function remStorage(){
-    localStorage.removeItem();
+    localStorage.removeItem(user_name);
 }
+
 
 export {
     setstorage,
