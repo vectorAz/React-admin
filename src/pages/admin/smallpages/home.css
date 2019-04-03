@@ -1,0 +1,12 @@
+.D1 {
+  position: relative;
+}
+.D1 .H1 {
+  width: 400px;
+  height: 200px;
+  text-align: center;
+  line-height: 200px;
+  color: black;
+  margin: auto ;
+  font-size: 20px;
+}

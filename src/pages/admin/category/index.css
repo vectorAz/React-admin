@@ -1,0 +1,9 @@
+.CardTop {
+  width: 100%;
+}
+.CardTop .buttonMy {
+  background: #1DA57A;
+}
+.CardTop .pass {
+  width: 300px;
+}
