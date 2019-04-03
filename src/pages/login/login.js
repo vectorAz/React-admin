@@ -5,10 +5,9 @@ import {
 import logo from './logo.png'
 import './style.less'
 import {reqLogin} from '../../api/index'
+import {setstorage} from '../../ITPCA/storage'
 
 const Item = Form.Item;
-
-
 @Form.create()
 class Login extends Component {
   login = (e) => {
@@ -17,11 +16,12 @@ class Login extends Component {
       if(!err){
         const {username,password}=value
         const resulet=await reqLogin(username,password);
-        console.log(resulet.status);
+        console.log(resulet);
         
         if(resulet.status===0){
-          console.log('1111');
           
+          setstorage(resulet.data) //储存storage
+
           message.success('登录成功')
           this.props.history.replace('/admin')
         }
@@ -33,6 +33,7 @@ class Login extends Component {
       }
     })
   }
+  //getFieldDecorator的自定义ruler
   validator = (rules, value, callback) => {
     // console.log(value,rules);
     const length = value && value.length;
