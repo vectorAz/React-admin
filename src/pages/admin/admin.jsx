@@ -24,10 +24,11 @@ export default class Admin extends Component {
   constructor(props) {
     super(props)
     const user = getstorage();
-    if (!user || !user._id) {
-      return this.props.history.push('/login')
+    
+    if ( user && users.id) {
+      users.id = user //在内存储存用户信息z
+
     }
-    users.id = user //在内存储存用户信息
   }
 
   state = {
@@ -41,6 +42,11 @@ export default class Admin extends Component {
   }
 
   render() {
+
+    if(!this.user && !users.id){
+      return  <Redirect to='/login' />
+    }
+
     const {collapsed}=this.state
    const opacity=collapsed?0:1
 
@@ -65,7 +71,7 @@ export default class Admin extends Component {
           <Content style={ { margin: '20px 15px 15px 16px' } }>
             <div style={ { padding: 24, background: '#fff', minHeight: 360 } }>
             <Switch>
-            <Route path='/home' component={Home} />
+              <Route path='/home' component={Home} />
               <Route path='/team' component={Team} />
               <Route path='/user' component={User} />
               <Route path="/category" component={Category}/>

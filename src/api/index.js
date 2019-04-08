@@ -23,3 +23,11 @@ export const reqWeather=(city)=>{
         })
     })
 }
+
+export const getitem=(parentId)=>{
+    return Axios(prefix + '/manage/category/list',{parentId},'get')
+}
+
+export const addcreatItem=(parentId,categoryName)=>{
+    return Axios( prefix + '/manage/category/add',{parentId,categoryName},'Post')
+}

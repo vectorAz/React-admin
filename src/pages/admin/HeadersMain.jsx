@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Row, Col, Modal } from 'antd';
+import { Row, Col, Modal,message } from 'antd';
 import { withRouter } from 'react-router-dom'
 import './Header.less'
 import Button from './my-button/button'
@@ -26,7 +26,6 @@ class HeadersMain extends Component {
         for (let j = 0; j < children.length; j++) {
 
           if (pathname === children[j].key) {
-            console.log(111);
             return children[j].title
           }
         }
@@ -54,10 +53,10 @@ class HeadersMain extends Component {
       })
       .catch((err) => {
         console.log(err, '请求失败');
-
+      message.error(err, 2)
       })
   }
-  componentWillMount() {
+  componentWillUnmount() {
     clearInterval(this.timer)
   }
 
@@ -76,12 +75,16 @@ class HeadersMain extends Component {
 
   render() {
     const title = this.gettitle()
-    const username = userid.id.username
+    // console.log(userid.id);
+
+    const {username} = userid.id
+    
     const { sysTime, weatherImg, weather } = this.state
     return (
       <div className='header-main'>
         <Row className='header-top'>
           <span>欢迎 { username }</span>
+          
           <Button onClick={ this.onClick } >退出</Button>
         </Row>
         <Row className='header-bottom'>

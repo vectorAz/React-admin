@@ -16,7 +16,6 @@ class Login extends Component {
       if(!err){
         const {username,password}=value
         const resulet=await reqLogin(username,password);
-        console.log(resulet);
         
         if(resulet.status===0){
           

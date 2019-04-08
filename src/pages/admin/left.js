@@ -70,7 +70,7 @@ class Left extends Component {
             <Fragment>
                 <Link to='/home' className='logo' onClick={ this.handleClick }>
                     <img src={ logo } alt="111" />
-                    <h1 style={ { opacity } } >34324234</h1>
+                    <h1 style={ { opacity } } >明日方舟</h1>
                 </Link>
                 <Menu theme="dark" selectedKeys={ [pathname] } mode="inline" openKeys={ this.state.openKeys } onOpenChange={ this.handleOpenChange } >
                     {
