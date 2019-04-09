@@ -1,7 +1,7 @@
 import axios from 'axios'
 import {message} from 'antd'  //引入全局提示
 export default function Axios(url, data, method = 'get') {
-    method = method.toUpperCase() //统一转换为答谢
+    method = method.toUpperCase() //统一转换为大写
     let pro=null;   
     if (method === "GET") {
             //axios  请求返回的是一个promise对象

@@ -9,7 +9,8 @@ export default class Category extends Component {
     super(props)
     this.state={
       categories:[],//一级分类数据
-      isShow:false
+      isShow:false,
+      isShowsub:false
     }
     this.createAddForm = React.createRef();
   }
@@ -65,10 +66,12 @@ export default class Category extends Component {
       isShow:true
     })
   }
+  Lookson=(category)=>{
 
+  }
 
   render() {
-    const {categories}=this.state
+    const {categories,isShowsub}=this.state
     // console.log(categories);
     
     const columns = [{
@@ -79,9 +82,12 @@ export default class Category extends Component {
       title: 'this is a  super big baka',
       className: 'pass',
       dataIndex: 'pass',
-      render:text=><div>
+      render:category =><div>
       <Mybutton name='222'>重命名</Mybutton>
-      <Mybutton>查看其分类</Mybutton>
+      {
+        isShowsub?<Mybutton onClick={this.Lookson(category)}>查看其分类</Mybutton>:null
+      }
+     
       </div>
     }, ];
     return (
