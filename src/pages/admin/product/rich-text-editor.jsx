@@ -3,22 +3,33 @@ import React from 'react'
 import BraftEditor from 'braft-editor'
 // 引入编辑器样式
 import 'braft-editor/dist/index.css'
-
+ import PropTypes from 'prop-types'
 export default class Richtext extends React.Component {
-
-    state = {
-        // 创建一个空的editorState作为初始值
-        editorState: BraftEditor.createEditorState(null)
+    static propTypes={
+        detail:PropTypes.string
     }
+    constructor(props){
+        super(props)
+        this.state = {
+            // 创建一个空的editorState作为初始值
+            editorState: BraftEditor.createEditorState(this.props.detail)//接受到外部传入的detail数据
+        }
+    }
+
 
     async componentDidMount () {
+        if(!this.props.detail){
+            const htmlContent = '更新世界的锋芒'
+            // 使用BraftEditor.createEditorState将html字符串转换为编辑器需要的editorStat
+            this.setState({
+                editorState: BraftEditor.createEditorState(htmlContent)
+            })
+        }
+        
         // 假设此处从服务端获取html格式的编辑器内容
-        const htmlContent = '更新世界的锋芒'
-        // 使用BraftEditor.createEditorState将html字符串转换为编辑器需要的editorStat
-        this.setState({
-            editorState: BraftEditor.createEditorState(htmlContent)
-        })
+      
     }
+   
     //保存时触发
     submitContent = async () => {
         // 在编辑器获得焦点时按下ctrl+s会执行此方法
@@ -34,6 +45,7 @@ export default class Richtext extends React.Component {
     render () {
 
         const { editorState } = this.state
+        
         return (
             <div className="my-component"  >
                 <BraftEditor

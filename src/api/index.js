@@ -51,7 +51,24 @@ export const GETproductItem = (pageNum, pageSize) => {
 }
 
 export const SETgoods = (product) => {
-    return Axios(prefix + '/manage/product/add', 
-    product
-    ,'post')
+    return Axios(prefix + '/manage/product/add',
+        product, 'post')
+}
+//修改商品
+export const UPdatagoods = (product) => {
+    return Axios(prefix + '/manage/product/update',
+        product, 'post')
+}
+
+export const RemoveImg = (name, id) => {
+    return Axios(prefix + '/manage/img/delete', {
+        name,
+        id
+    }, 'post')
+}
+
+
+export const GetsearchIitm = (product) => {
+    return Axios(prefix + '/manage/product/search',
+        product )
 }

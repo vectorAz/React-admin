@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { Card, Button, Icon, Form, Input, Cascader, InputNumber ,message} from 'antd'
 import './save-updata.less'
-import { getitem ,SETgoods} from '../../../api/index'
+import { getitem ,SETgoods,UPdatagoods} from '../../../api/index'
 import Richtext from './rich-text-editor'
+import PicturesWall from './uplode'
 const Item = Form.Item
 
 @Form.create()
@@ -83,6 +84,18 @@ class Saveupdata extends Component {
 
   componentDidMount() {
     this.getCategories('0')
+    const {state}= this.props.location  //有值说明是修改商品
+    if(state){
+      const {pCategoryId,categoryId}=state
+      if(pCategoryId==='0'){
+        this.category=[categoryId]
+      }else{
+        this.getCategories(pCategoryId);
+        this.category=[pCategoryId,categoryId]
+      }
+    }
+
+
   }
   onSubmit = (e) => {
     e.preventDefault()
@@ -102,15 +115,30 @@ class Saveupdata extends Component {
           pCategoryId=category[0]
           categoryId=category[1]
         }
-        const result =await SETgoods({name,desc,price,pCategoryId,categoryId,detail})
-        // console.log(result);
-        if(result.status===0){
-          message.success('商品添加成功')
-          this.props.history.goBack()
+        const {location:{state}}= this.props
+        console.log(state);
+        
+        if(state){
+          const result =await UPdatagoods({name,desc,price,pCategoryId,categoryId,detail,_id:state._id})
+          // console.log(result);
+          if(result.status===0){
+            message.success('商品修改成功')
+            this.props.history.goBack()
+          }else{
+            message.error('商品修改失败')
+          }
+  
         }else{
-          message.error('商品添加失败')
+          const result =await SETgoods({name,desc,price,pCategoryId,categoryId,detail})
+          // console.log(result);
+          if(result.status===0){
+            message.success('商品添加成功')
+            this.props.history.goBack()
+          }else{
+            message.error('商品添加失败')
+          }
         }
-
+      
       }
     })
   }
@@ -119,13 +147,17 @@ class Saveupdata extends Component {
   render() {
     const { options } = this.state
     const { getFieldDecorator } = this.props.form;
+    const {state}= this.props.location
+    // console.log(this.props.location);
 
+    // console.log(state.imgs);
+    
     return (
       <Card
         title={
           <div className='arrow-fater'>
             <Icon onClick={ this.goBack } className='updata-arrow' type='arrow-left' />
-            <span> &nbsp; &nbsp;添加商品</span>
+            <span> &nbsp; &nbsp;{state?'修改商品':'添加商品'}</span>
           </div>
         }
       >
@@ -135,7 +167,8 @@ class Saveupdata extends Component {
               getFieldDecorator(
                 'name',
                 {
-                  rules: [{ required: true, whiteSpace: true, message: '商品名称不能为空' }]
+                  rules: [{ required: true, whiteSpace: true, message: '商品名称不能为空' }],
+                  initialValue:state?state.name:''
                 }
               )(
                 <Input placeholder='请输入商品名称'></Input>
@@ -149,7 +182,9 @@ class Saveupdata extends Component {
               getFieldDecorator(
                 'desc',
                 {
-                  rules: [{ required: true, whiteSpace: true, message: '商品描述不能为空' }]
+                  rules: [{ required: true, whiteSpace: true, message: '商品描述不能为空' }],
+                  initialValue:state?state.desc:''
+
                 }
               )(
                 <Input placeholder='请输入商品描述'></Input>
@@ -168,7 +203,8 @@ class Saveupdata extends Component {
               getFieldDecorator(
                 'category',
                 {
-                  rules: [{ required: true, message: '商品分类不能为空' }]
+                  rules: [{ required: true, message: '商品分类不能为空' }],
+                  initialValue:state?this.category:[]
                 }
               )(
                 <Cascader
@@ -187,7 +223,9 @@ class Saveupdata extends Component {
               getFieldDecorator(
                 'price',
                 {
-                  rules: [{ required: true, message: '商品价格不能为空' }]
+                  rules: [{ required: true, message: '商品价格不能为空' }],
+                  initialValue:state?state.price:''
+
                 }
               )(
                 <InputNumber
@@ -200,13 +238,20 @@ class Saveupdata extends Component {
 
           </Item>
 
+            
+           {
+             state? <Item label='商品预览'> <PicturesWall _id={state._id} imgs={state.imgs} /></Item>:''
+              //上传时需要携带一个_id  标识给哪个商品添加
+          }
+         
+
           <Item label='商品详情' wrapperCol={ {
             xs: { span: 24 },
             sm: { span: 17 },
           } }>
-            <Richtext ref={ this.RichtextRef } />
+            <Richtext ref={ this.RichtextRef }  detail={state ? state.detail : ''}/>
           </Item>
-
+         
           <Item >
             <Button type='primary' className='subutton' htmlType="submit">提交</Button>
           </Item>
@@ -216,19 +261,3 @@ class Saveupdata extends Component {
   }
 }
 export default Saveupdata
-
-/**
- *
- * options = [{
-    value: 'zhejiang111',
-    label: 'Zhejiang222',
-    children: [{
-      value: 'hangzhou',
-      label: 'Hangzhou',
-      children: [{
-        value: 'xihu',
-        label: 'West Lake',
-      }],
-    }],
-  }]
- */

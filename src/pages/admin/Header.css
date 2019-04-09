@@ -31,3 +31,6 @@
   width: 30px;
   height: 20px;
 }
+.ant-layout {
+  overflow: hidden;
+}

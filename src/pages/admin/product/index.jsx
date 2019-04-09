@@ -1,33 +1,66 @@
 import React, { Component } from 'react';
 import { Fragment } from 'react'
 import Mybutton from '../my-button/button'
-import {  Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Card, Button, Icon, Table, Select, Input, message } from 'antd'
-import { GETproductItem } from '../../../api/index'
+import { GETproductItem, GetsearchIitm } from '../../../api/index'
 const Option = Select.Option
 
 export default class Product extends Component {
-  state = {
-    dataSource: [],
-    total:''
+  constructor(props) {
+    super(props)
+    this.state = {
+      dataSource: [],
+      total: '',
+      searchType: 'productName',
+      pageNum: 1,
+      pageSize: 3
+
+    }
+    this.SelectContentRef = React.createRef()
   }
 
-  getProduct = async (pageNum, pageSize = 3) => {
-    const result = await GETproductItem(pageNum, pageSize)
+
+
+  getProduct = async (pageNum, pageSize=3) => {
+    const searchType = this.state.searchType
+    const searchContent = this.searchContent
+    let result = null
+    console.log(searchType,searchContent);
+
+    // console.log(searchType, searchContent);
+    if (searchContent) {
+      
+      result = await GetsearchIitm({
+        [searchType]:searchContent,
+        pageNum,
+        pageSize
+      })
+    } else {
+
+      result = await GETproductItem(pageNum, pageSize)
+
+    }
+
     if (result.status === 0) {
+      console.log(result);
+      
       this.setState({
         dataSource: result.data.list,
-        total:result.data.total
+        total: result.data.total,
+        pageNum,
+        pageSize
       })
+      
     } else {
       message.error('请求失败')
     }
   }
-  
+
   componentDidMount() {
     this.getProduct(1)
-  }
 
+  }
 
 
   columns = [
@@ -46,7 +79,6 @@ export default class Product extends Component {
     },
     {
       title: '状态',
-      // dataIndex: 'address',
       key: 'ZT',
       render: () => {
         return <Fragment>
@@ -57,35 +89,53 @@ export default class Product extends Component {
     },
     {
       title: '操作',
-      // dataIndex: 'address',
       key: 'CZ',
-      render: () => {
+      render: (value) => {
+        // console.log(value)
         return <Fragment>
           <Mybutton>详情</Mybutton>
-          <Mybutton>修改</Mybutton>
+          <Mybutton onClick={ this.onModify(value) }>修改</Mybutton>
         </Fragment>
       }
     }
   ];
- 
+
+  onModify = (value) => {
+    return () => {
+      this.props.history.push('/product/SaveUpdata', value)
+    }
+  }
+
+  handleSelectname = (type) => {
+    this.setState({
+      searchType: type
+    })
+  }
+
+  INcontent = async () => {
+    this.searchContent = this.SelectContentRef.current.state.value
+    this.getProduct(1)
+  }
+
+
 
   render() {
-    const { dataSource,total } = this.state
+    const { dataSource, total } = this.state
     // console.log(dataSource);
-    
+
     return (
       <Card
         title={
           <Fragment>
-            <Select value={ 0 }>
-              <Option key={ 0 } value={ 0 }>根据商品名称</Option>
-              <Option key={ 1 } value={ 1 }>根据商品描述</Option>
+            <Select defaultValue='productname' onChange={ this.handleSelectname }>
+              <Option key={ 0 } value='productname' >根据商品名称</Option>
+              <Option key={ 1 } value='productDesc' >根据商品描述</Option>
             </Select>
-            <Input placeholder="关键字" style={ { width: 200, margin: '0 10px' } } />
-            <Button type="primary">搜索</Button>
+            <Input placeholder="关键字" style={ { width: 200, margin: '0 10px' } } ref={ this.SelectContentRef } />
+            <Button type="primary" onClick={ this.INcontent }>搜索</Button>
           </Fragment>
         }
-        extra={ <Link to='/product/SaveUpdata'><Button type='primary'><Icon type='plus'></Icon> 添加产品 </Button> </Link>   }
+        extra={ <Link to='/product/SaveUpdata'><Button type='primary'><Icon type='plus'></Icon> 添加产品 </Button> </Link> }
 
       >
         <Table
@@ -97,8 +147,8 @@ export default class Product extends Component {
             pageSizeOptions: ['3', '6', '9', '12'],
             defaultPageSize: 3,
             showQuickJumper: true,
-            onChange:this.getProduct,
-            onShowSizeChange:this.getProduct,
+            onChange: this.getProduct,
+            onShowSizeChange: this.getProduct,
             total
           } }
           rowKey='_id'
