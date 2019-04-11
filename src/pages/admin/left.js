@@ -37,7 +37,7 @@ class Left extends Component {
                         {
                             //    this.createmenu(item.children)
                             item.children.map((index) => {
-                                if (pathname === index.key) {
+                                if (pathname.startsWith(index.key)||index.key.startsWith(pathname)) {
                                     openKeys.push(item.key)
                                 }
                                 return this.createitem(index)
@@ -61,11 +61,16 @@ class Left extends Component {
         this.setState({ openKeys: [] })
     }
     render() {
-
-        const { location: { pathname }, opacity } = this.props
+        
+        let { location: { pathname }, opacity } = this.props
         // console.log(pathname);
         // console.log(this.state.openKeys);
-        
+        // console.log(pathname);
+        if(pathname.startsWith('/product')){
+          pathname='/product'                                                                                           
+        }
+
+
         return (
             <Fragment>
                 <Link to='/home' className='logo' onClick={ this.handleClick }>

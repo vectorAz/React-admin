@@ -23,6 +23,6 @@ export default function Axios(url, data, method = 'get') {
                 console.log(err);
                 console.log('*****');
                 
-                message.err('网络异常 请重试')
+                message.error('网络异常 请重试')
             })
 }

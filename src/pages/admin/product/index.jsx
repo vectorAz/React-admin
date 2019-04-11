@@ -22,36 +22,33 @@ export default class Product extends Component {
 
 
 
-  getProduct = async (pageNum, pageSize=3) => {
+  getProduct = async (pageNum, pageSize = 3) => {
     const searchType = this.state.searchType
     const searchContent = this.searchContent
     let result = null
-    console.log(searchType,searchContent);
+    // console.log(searchType, searchContent);
 
     // console.log(searchType, searchContent);
     if (searchContent) {
-      
-      result = await GetsearchIitm({
-        [searchType]:searchContent,
+        result = await GetsearchIitm({
+        [searchType]: searchContent,
         pageNum,
         pageSize
       })
     } else {
-
       result = await GETproductItem(pageNum, pageSize)
-
     }
 
     if (result.status === 0) {
-      console.log(result);
-      
+      // console.log(result);
+
       this.setState({
         dataSource: result.data.list,
         total: result.data.total,
         pageNum,
         pageSize
       })
-      
+
     } else {
       message.error('请求失败')
     }
@@ -93,7 +90,7 @@ export default class Product extends Component {
       render: (value) => {
         // console.log(value)
         return <Fragment>
-          <Mybutton>详情</Mybutton>
+         <Link to='/product/Detail'> <Mybutton>详情</Mybutton></Link>
           <Mybutton onClick={ this.onModify(value) }>修改</Mybutton>
         </Fragment>
       }

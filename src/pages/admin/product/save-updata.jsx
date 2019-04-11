@@ -11,7 +11,8 @@ class Saveupdata extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      options: []
+      options: [],
+      isLeaf:false
     }
     this.RichtextRef = React.createRef()
   }
@@ -105,6 +106,8 @@ class Saveupdata extends Component {
 
         const {category,desc,name,price}=values
         const detail=this.RichtextRef.current.state.editorState.toHTML()
+        console.log(this.RichtextRef.current);
+        
 
         let pCategoryId,categoryId;
         if(category.length===1){

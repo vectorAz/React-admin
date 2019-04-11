@@ -9,10 +9,10 @@ import HeadersMain from './HeadersMain'
 import {Route,Switch,Redirect } from 'react-router-dom'
 import Team from './smallpages/team.jsx'
 import Home from './smallpages/home.jsx'
-import User from './smallpages/user.jsx'
 import Category from './category';
 import Product from './product/product-menu';
 import Role from './role';
+import User from './user';
 import Line from './charts/line';
 import Pie from './charts/pie';
 import Bar from './charts/bar';

@@ -25,7 +25,7 @@ class HeadersMain extends Component {
       if (children) {
         for (let j = 0; j < children.length; j++) {
 
-          if (pathname === children[j].key) {
+          if ( pathname.startsWith(children[j].key)) {
             return children[j].title
           }
         }

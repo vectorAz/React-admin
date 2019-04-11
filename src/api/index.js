@@ -72,3 +72,23 @@ export const GetsearchIitm = (product) => {
     return Axios(prefix + '/manage/product/search',
         product )
 }
+export const Getuserlist = () => {
+    return Axios(prefix + '/manage/role/list' )
+}
+
+export const reqAdduser = (name) => {
+    return Axios(prefix + '/manage/role/add' ,{name},'post')
+}
+
+export const requpdatauser = (role) => {
+    return Axios(prefix + '/manage/role/update',{role},'post')
+}
+
+export const Addusername = (value) => {
+    return Axios(prefix + '/manage/user/add',value,'post')
+}
+
+export const Getusername = () => {
+    return Axios(prefix + '/manage/user/list')
+}
+
