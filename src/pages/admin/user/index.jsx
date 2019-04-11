@@ -76,12 +76,12 @@ export default class Role extends Component {
       this.setState({
         userlist: user.data
       })
-      console.log(this.state.userlist);
+      // console.log(this.state.userlist);
 
     }
 
     const listForuser = await Getusername()
-    console.log(listForuser);
+    // console.log(listForuser);
 
     if (listForuser.status === 0) {
 
@@ -99,7 +99,7 @@ export default class Role extends Component {
     validateFields(async (err, value) => {
       if (!err) {
         const { name, password, phone, email, role_id } = value
-        console.log(value);
+        // console.log(value);
 
         const username = name
         const result = await Addusername({

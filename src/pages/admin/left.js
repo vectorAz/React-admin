@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Link, withRouter } from 'react-router-dom'
 import menuList from '../../api/goods'
 import logo from './logo.png'
+import { getstorage } from '../../ITPCA/storage';
 const SubMenu = Menu.SubMenu;
 @withRouter
 class Left extends Component {
@@ -13,10 +14,14 @@ class Left extends Component {
     constructor(props) {
         super(props)
         const openKeys = []
-        this.Menu = this.createmenu(menuList, openKeys)
+        const menus=this.getmenu(menuList)
+        this.Menu = this.createmenu(menus, openKeys)
+        
         this.state = {
             openKeys
         }
+        console.log(this.Menu);
+
     }
 
     createitem(item) {
@@ -26,6 +31,7 @@ class Left extends Component {
                 <span>{ item.title } </span>
             </Link>
         </Menu.Item>
+
     }
 
     createmenu(menuList, openKeys) {
@@ -51,8 +57,54 @@ class Left extends Component {
                 )
             }
         })
-
     }
+
+    // getMenu (menuList) {
+    //     const { menus } = memory.user.role
+    //     //一级分类遍历
+    //     //假装克隆 这里会影响role
+    //     const arr = menuList.slice()
+    //     return arr.reduce((prev, curr) => {
+    //       let children = curr.children
+    //       if (menus.includes(curr.key)) return [...prev, curr]
+    //       //可能children有标签没有添加
+    //       else if (children) {
+    //         curr.children = children.filter((item) => menus.includes(item.key))
+    //         return curr.children.length ? [...prev, curr] : prev
+    //       }
+    //       else return prev
+    //     }, [])
+    //   }
+
+    getmenu(menuList) {
+        const menus = getstorage().role.menus
+        console.log(menus);
+        
+         return  menuList.reduce((previous, current) => {
+            const ismenus = menus.find((item) => {
+                return item === current.key
+            })
+            if (ismenus) {
+                const children = current.children
+
+                if (menus.includes(current.key)) return [...previous, current]
+                  else if (children) {
+                    children.filter((item) => {
+                        return menus.find((index) => {
+                            return index === item.key
+                        })
+                    })
+                }
+                return [...previous, current]
+            } else {
+                return previous
+            }
+        }, [])
+        
+    }
+
+
+
     handleOpenChange = (openKeys) => {
         // console.log(openKeys);
         this.setState({ openKeys })
@@ -61,13 +113,13 @@ class Left extends Component {
         this.setState({ openKeys: [] })
     }
     render() {
-        
+
         let { location: { pathname }, opacity } = this.props
         // console.log(pathname);
         // console.log(this.state.openKeys);
         // console.log(pathname);
-        if(pathname.startsWith('/product')){
-          pathname='/product'                                                                                           
+        if (pathname.startsWith('/product')) {
+            pathname = '/product'
         }
 
 
