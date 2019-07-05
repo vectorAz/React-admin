@@ -1,0 +1,116 @@
+{
+	"name": "Crr1-demo",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"engines": {
+		"node": ">=4.5.0",
+		"npm": "^3.0.0"
+	},
+	"scripts": {
+		"clean": "rimraf dist",
+		"init": "better-npm-run init",
+		"compile_dependency": "better-npm-run compile_dependency",
+		"compile_app": "better-npm-run compile_app",
+		"compile_module": "better-npm-run compile_module",
+		"compile": "better-npm-run compile",
+		"start": "better-npm-run start",
+		"compile-ie8": "better-npm-run compile-ie8",
+		"compile-chrome40": "better-npm-run compile-chrome40",
+		"start-ie8": "better-npm-run start-ie8",
+		"deploy": "better-npm-run deploy",
+		"deploy:prod": "better-npm-run deploy:prod",
+		"deploy-ie8": "better-npm-run deploy-ie8",
+		"deploy-ie8:prod": "better-npm-run deploy-ie8:prod",
+		"deploy-chrome40": "better-npm-run deploy-chrome40",
+		"deploy-chrome40:prod": "better-npm-run deploy-chrome40:prod"
+	},
+	"betterScripts": {
+		"init": {
+			"command": "node node_modules/@tencent/convenient-react-redux/lib/commands/compile.js init . ./build/src"
+		},
+		"compile_dependency": {
+			"command": "node node_modules/@tencent/convenient-react-redux/lib/commands/compile.js dependency_transpile . ./build/src"
+		},
+		"compile_app": {
+			"command": "node node_modules/@tencent/convenient-react-redux/lib/commands/compile.js app_transpile . ./build/src"
+		},
+		"compile_module": {
+			"command": "node node_modules/@tencent/convenient-react-redux/lib/commands/compile.js module_transpile . ./build/src"
+		},
+		"start": {
+			"command": "node node_modules/@tencent/convenient-react-redux/lib/commands/compile.js start . ./build/src",
+			"env": {
+				"DEBUG": "app:*"
+			}
+		},
+		"compile": {
+			"command": "node node_modules/@tencent/convenient-react-redux/lib/commands/compile.js compile . ./build/src",
+			"env": {
+				"DEBUG": "app:*"
+			}
+		},
+		"start-ie8": {
+			"command": "node node_modules/@tencent/convenient-react-redux/lib/commands/compile.js start-ie8 . ./build/src",
+			"env": {
+				"DEBUG": "app:*"
+			}
+		},
+		"compile-ie8": {
+			"command": "node node_modules/@tencent/convenient-react-redux/lib/commands/compile.js compile-ie8 . ./build/src",
+			"env": {
+				"DEBUG": "app:*"
+			}
+		},
+		"compile-chrome40": {
+			"command": "node node_modules/@tencent/convenient-react-redux/lib/commands/compile.js compile-chrome40 . ./build/src",
+			"env": {
+				"DEBUG": "app:*"
+			}
+		},
+		"deploy": {
+			"command": "npm run clean && npm run compile",
+			"env": {
+				"DEBUG": "app:*"
+			}
+		},
+		"deploy:prod": {
+			"command": "npm run deploy",
+			"env": {
+				"NODE_ENV": "production",
+				"DEBUG": "app:*"
+			}
+		},
+		"deploy-ie8": {
+			"command": "npm run clean && npm run compile-ie8",
+			"env": {
+				"DEBUG": "app:*"
+			}
+		},
+		"deploy-ie8:prod": {
+			"command": "npm run deploy-ie8",
+			"env": {
+				"NODE_ENV": "production",
+				"DEBUG": "app:*"
+			}
+		},
+		"deploy-chrome40": {
+			"command": "npm run clean && npm run compile-chrome40",
+			"env": {
+				"DEBUG": "app:*"
+			}
+		},
+		"deploy-chrome40:prod": {
+			"command": "npm run deploy-chrome40",
+			"env": {
+				"NODE_ENV": "production",
+				"DEBUG": "app:*"
+			}
+		}
+	},
+	"repository": {},
+	"dependencies": {},
+	"devDependencies": {
+		"@tencent/convenient-react-redux": "^0.2.0"
+	}
+}
